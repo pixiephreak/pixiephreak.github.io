@@ -16,37 +16,19 @@ module.exports = function(grunt) {
           sizes: [{
             /* Change these */
             width: 200,
-            suffix: '_small_1x',
+            suffix: '_1x',
             quality: 75
           },
           {
             /* Change these */
             width: 400,
-            suffix: '_small_2x',
+            suffix: '_2x',
             quality: 75
           },
           {
-            /* Change these */
-            width: 400,
-            suffix: '_medium_1x',
-            quality: 75
-          },
-           {
             /* Change these */
             width: 800,
-            suffix: '_medium_2x',
-            quality: 75
-          },
-          {
-            /* Change these */
-            width: 600,
-            suffix: '_large_1x',
-            quality: 75
-          },
-          {
-            /* Change these */
-            width: 1200,
-            suffix: '_large_2x',
+            suffix: '_3x',
             quality: 75
           }
 
