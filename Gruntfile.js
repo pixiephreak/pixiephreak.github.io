@@ -1,65 +1,95 @@
 /*
- * grunt-contrib-imagemin
- * http://gruntjs.com/
- *
- * Copyright (c) 2016 Sindre Sorhus, contributors
- * Licensed under the MIT license.
- */
+ After you have changed the settings under responsive_images
+ run this with one of these options:
+  "grunt" alone creates a new, completed images directory
+  "grunt clean" removes the images directory
+  "grunt responsive_images" re-processes images without removing the old ones
+*/
 
-'use strict';
-
-module.exports = function (grunt) {
-  require('time-grunt')(grunt);
+module.exports = function(grunt) {
 
   grunt.initConfig({
-    jshint: {
-      all: [
-        'Gruntfile.js',
-        'tasks/*.js',
-        '<%= nodeunit.tests %>'
-      ],
-      options: {
-        jshintrc: '.jshintrc'
-      }
-    },
-    clean: {
-      test: ['tmp']
-    },
-    imagemin: {
-      dist: {
+    responsive_images: {
+      dev: {
+        options: {
+          engine: 'im',
+          sizes: [{
+            /* Change these */
+            width: 200,
+            suffix: '_small_1x',
+            quality: 75
+          },
+          {
+            /* Change these */
+            width: 400,
+            suffix: '_small_2x',
+            quality: 75
+          },
+          {
+            /* Change these */
+            width: 400,
+            suffix: '_medium_1x',
+            quality: 75
+          },
+           {
+            /* Change these */
+            width: 800,
+            suffix: '_medium_2x',
+            quality: 75
+          },
+          {
+            /* Change these */
+            width: 600,
+            suffix: '_large_1x',
+            quality: 75
+          },
+          {
+            /* Change these */
+            width: 1200,
+            suffix: '_large_2x',
+            quality: 75
+          }
+
+          ]
+        },
+
+        /*
+        You don't need to change this part if you don't change
+        the directory structure.
+        */
         files: [{
           expand: true,
-          cwd: 'test/fixtures',
-          src: '**/*.{gif,GIF,jpg,JPG,png,PNG}',
-          dest: 'tmp'
+          src: ['*.{gif,jpg,png}'],
+          cwd: 'imgs_src/',
+          dest: 'imgs/'
         }]
-      },
-      rename: {
-        files: {
-          'tmp/rename.jpg': 'test/fixtures/test.jpg'
-        }
       }
     },
-    nodeunit: {
-      tests: ['test/test.js']
-    }
+
+    /* Clear out the images directory if it exists */
+     clean: {
+       dev: {
+         src: ['imgs'],
+     },
+     },
+
+    /* Generate the images directory if it is missing */
+    mkdir: {
+      dev: {
+        options: {
+          create: ['imgs']
+        },
+      },
+    },
+
   });
 
-  grunt.loadTasks('tasks');
-
+  grunt.loadNpmTasks('grunt-responsive-images');
   grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-nodeunit');
-  grunt.loadNpmTasks('grunt-contrib-internal');
-  grunt.loadNpmTasks('grunt-contrib-imagemin');
+  grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-mkdir');
+  grunt.registerTask('default', ['clean', 'mkdir', 'responsive_images']);
+  grunt.loadNpmTasks('grunt-contrib-clean');
 
-  grunt.registerTask('test', [
-    'jshint',
-    'clean',
-    'imagemin',
-    'nodeunit',
-    'clean'
-  ]);
-
-  grunt.registerTask('default', ['test', 'build-contrib']);
 };
+
