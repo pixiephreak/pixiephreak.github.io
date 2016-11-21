@@ -9,6 +9,17 @@
 module.exports = function(grunt) {
 
   grunt.initConfig({
+
+    critical: {
+      dist: {
+        option: {
+          base: './'
+        },
+        src:'original.html',
+        dest: 'index.html'
+      }
+    },
+
     responsive_images: {
       dev: {
         options: {
@@ -66,12 +77,13 @@ module.exports = function(grunt) {
 
   });
 
+  grunt.loadNpmTasks('grunt-critical');
   grunt.loadNpmTasks('grunt-responsive-images');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-mkdir');
-  grunt.registerTask('default', ['clean', 'mkdir', 'responsive_images']);
   grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.registerTask('default', ['clean', 'mkdir', 'responsive_images', 'critical']);
 
 };
 
