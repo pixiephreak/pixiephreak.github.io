@@ -8,6 +8,8 @@
 
 module.exports = function(grunt) {
 
+  var mozjpeg = require('imagemin-mozjpeg');
+
   grunt.initConfig({
 
     pkg: grunt.file.readJSON("package..json"),
@@ -53,6 +55,20 @@ module.exports = function(grunt) {
       files: ['<%= jshint.files %>'],
       tasks: ['jshint','qunit']
     },
+
+    imagemin: {
+      dynamic: {
+        files: [{
+        expand: true,
+        cwd: 'imgs_src/',
+        src: ['**/*.{png,jpg,gif'],
+        dest: 'dist/'
+      }]
+    }
+    },
+
+
+
 
     critical: {
       dist: {
@@ -133,9 +149,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-mkdir');
+  grunt.loadNpmTasks('grunt-contrib-imagemin');
   grunt.loadNpmTasks('grunt-contrib-clean');
 
-  grunt.registerTask('default', ['clean', 'mkdir', 'responsive_images', 'critical', 'uglify', 'jshint', 'qunit', 'concat']);
+  grunt.registerTask('default', ['clean', 'mkdir', 'responsive_images', 'critical', 'uglify', 'jshint', 'qunit', 'concat', 'imagemin']);
 
   grunt.registerTask('test', ['jshint', 'qunit']);
 };

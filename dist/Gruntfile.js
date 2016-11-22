@@ -21,6 +21,22 @@ module.exports = function(grunt) {
       }
     },
 
+    imagemin: {
+      dist: {
+        files: [{
+          expand: true,
+          cwd: 'imgs_src',
+          src: '**/*.{gif,GIF,jpg,JPG,png,PNG}',
+          dest: 'tmp'
+        }]
+      },
+      // rename: {
+      //   files: {
+      //     'tmp/rename.jpg': 'test/fixtures/test.jpg'
+      //   }
+      }
+    },
+
     critical: {
       dist: {
         option: {
@@ -97,7 +113,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-mkdir');
   grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.registerTask('default', ['clean', 'mkdir', 'responsive_images', 'critical']);
+  grunt.loadNpmTasks('grunt-contrib-imagemin');
+  grunt.registerTask('default', ['clean', 'mkdir', 'responsive_images', 'critical', 'imagemin']);
 
 };
 
