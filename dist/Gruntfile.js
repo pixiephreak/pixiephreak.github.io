@@ -34,17 +34,17 @@ module.exports = function(grunt) {
       //   files: {
       //     'tmp/rename.jpg': 'test/fixtures/test.jpg'
       //   }
-      }
+
     },
 
-    critical: {
+    critical : {
       dist: {
         option: {
           base: './'
         },
         files: [
         {src:['*.html'], dest: 'dist/'},
-        {src: ['views/*.html'], dest: 'dist/'}
+        // {src: ['views/*.html'], dest: 'dist/'}
         ]
       }
     },
