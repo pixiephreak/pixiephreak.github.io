@@ -1,0 +1,29 @@
+{
+  "name": "pixiephreak.github.io",
+  "version": "1.0.0",
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pixiephreak/pixiephreak.github.io.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pixiephreak/pixiephreak.github.io/issues"
+  },
+  "homepage": "https://github.com/pixiephreak/pixiephreak.github.io#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-imagemin": "^1.0.1",
+    "grunt-contrib-uglify": "^2.0.0",
+    "grunt-critical": "^0.2.1",
+    "grunt-mkdir": "^1.0.0",
+    "grunt-responsive-images": "^1.10.1"
+  },
+  "description": ""
+}

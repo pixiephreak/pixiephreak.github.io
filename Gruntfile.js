@@ -8,75 +8,26 @@
 
 module.exports = function(grunt) {
 
-  var mozjpeg = require('imagemin-mozjpeg');
-
   grunt.initConfig({
-
-    pkg: grunt.file.readJSON("package..json"),
-
-    concat:{
-      options:{
-        separator: ';'
-      },
-      dist: {
-        src: ['src/**/*.js'],
-        dest: 'dist/<%= pkg.name %>.js'
-      }
-    },
 
     uglify: {
       options:{
-        mangle: 'false',
-        banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+        mangle: 'false'
       },
-      dist: {
+      my_target: {
         files:{
-          'dist/<%= pkg.name %>.min.js' : ['<%= concat.dist.dest %>']
+          'dest/output.min.js': ['js/*.js']
         }
       }
     },
 
-    qunit: {
-      files: ['test/**/*.html']
-    },
-    jshint: {
-      files: ['Gruntfile.js', 'src/**/**.js', 'test/**/*.js'],
-      options: {
-        globals: {
-        jQuery: true,
-        console: true,
-        module: true,
-        document: true
-        }
-      }
-    },
-
-    watch: {
-      files: ['<%= jshint.files %>'],
-      tasks: ['jshint','qunit']
-    },
-
-    imagemin: {
-      dynamic: {
-        files: [{
-        expand: true,
-        cwd: 'imgs_src/',
-        src: ['**/*.{png,jpg,gif'],
-        dest: 'dist/'
-      }]
-    }
-    },
-
-
-
-
-    critical: {
+    critical : {
       dist: {
         option: {
           base: './'
         },
         files: [
-        {src:['*.html'], dest: 'dist/'},
+        {src:['*.html'], dest: 'docs/'},
         // {src: ['views/*.html'], dest: 'dist/'}
         ]
       }
@@ -97,12 +48,6 @@ module.exports = function(grunt) {
             width: 400,
             suffix: '_2x',
             quality: 75
-          },
-          {
-            /* Change these */
-            width: 800,
-            suffix: '_3x',
-            quality: 75
           }
 
           ]
@@ -114,17 +59,33 @@ module.exports = function(grunt) {
         */
         files: [{
           expand: true,
-          src: ['*.{gif,jpg,png}'],
-          cwd: 'imgs_src/',
-          dest: 'imgs/'
+          src: ['**/*.{gif,GIF,jpg,JPG,png,PNG}'],
+          cwd: 'imgs_src',
+          dest: 'docs/imgs/'
         }]
       }
+    },
+
+    imagemin: {
+      dist: {
+        files: [{
+          expand: true,
+          cwd: 'imgs_src',
+          src: '**/*.{gif,GIF,jpg,JPG,png,PNG}',
+          dest: 'docs/imgs/'
+        }]
+      },
+      // rename: {
+      //   files: {
+      //     'tmp/rename.jpg': 'test/fixtures/test.jpg'
+      //   }
+
     },
 
     /* Clear out the images directory if it exists */
      clean: {
        dev: {
-         src: ['imgs'],
+         src: ['docs/imgs'],
      },
      },
 
@@ -132,7 +93,7 @@ module.exports = function(grunt) {
     mkdir: {
       dev: {
         options: {
-          create: ['imgs']
+          create: ['docs/imgs']
         },
       },
     },
@@ -141,20 +102,12 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-critical');
   grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-qunit');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-responsive-images');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-mkdir');
-  grunt.loadNpmTasks('grunt-contrib-imagemin');
   grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-imagemin');
+  grunt.registerTask('default', ['clean', 'mkdir', 'responsive_images', 'critical', 'imagemin']);
 
-  grunt.registerTask('default', ['clean', 'mkdir', 'responsive_images', 'critical', 'uglify', 'jshint', 'qunit', 'concat', 'imagemin']);
-
-  grunt.registerTask('test', ['jshint', 'qunit']);
 };
-
-
