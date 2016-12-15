@@ -1,4 +1,4 @@
-*Website Optimization*
+***Website Optimization***
 
 Project goal is to optimize portfolio site in order to acheive acheive a score of 90+ using Google's Pagespeed Insights tool.
 
@@ -17,9 +17,9 @@ See lines:
 
 **Development setup**
 
-Installation
+*Installation*
 
-***OS X & Linux:***
+OS X & Linux:
 
 npm install (my npm tasks) --save -dev
 
