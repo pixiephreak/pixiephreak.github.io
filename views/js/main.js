@@ -1,23 +1,26 @@
 /*
-Welcome to the 60fps project! Your goal is to make Cam's Pizzeria website run
+The goal of this project is to make Cam's Pizzeria website run
 jank-free at 60 frames per second.
 
-There are two major issues in this code that lead to sub-60fps performance. Can
-you spot and fix both?
+There are two major issues in this code that lead to sub-60fps performance.
+One is that the number of DOM elements could be greatly reduced.
+The other is that DOM elements are accessed inefficiently in loops.
 
 
-Built into the code, you'll find a few instances of the User Timing API
+Built into the code, are few instances of the User Timing API
 (window.performance), which will be console.log()ing frame rate data into the
 browser console. To learn more about User Timing API, check out:
 http://www.html5rocks.com/en/tutorials/webperformance/usertiming/
+It's very nice.
 
-Creator:
+Creator of Cloned Website:
 Cameron Pittman, Udacity Course Developer
 cameron *at* udacity *dot* com
+Optimizations are made by JC
 */
 
 // As you may have realized, this website randomly generates pizzas.
-// Here are arrays of all possible pizza ingredients.
+// Here are arrays of all possible pizza ingredients, which were added to the ingredients object using dot notation.
 var pizzaIngredients = {};
 pizzaIngredients.meats = [
   "Pepperoni",
@@ -142,7 +145,7 @@ pizzaIngredients.crusts = [
   "Stuffed Crust"
 ];
 
-// Name generator pulled from http://saturdaykid.com/usernames/generator.html
+// Name generator Cam pulled from http://saturdaykid.com/usernames/generator.html
 // Capitalizes first letter of each word
 String.prototype.capitalize = function() {
   return this.charAt(0).toUpperCase() + this.slice(1);
@@ -448,6 +451,8 @@ var resizePizzas = function(size) {
   }
 
   // Iterates through pizza elements on the page and changes their widths
+  // Here, the DOM elements that are accessed have been stored in a variable outside of the loop in order to improve FPS
+  // The length of the newly created array is also sotred in it's own var in order to increase the efficiency of the loop
   function changePizzaSizes(size) {
     for (var i = 0; i < document.querySelectorAll(".randomPizzaContainer").length; i++) {
       var dx = determineDx(document.querySelectorAll(".randomPizzaContainer")[i], size);
@@ -498,6 +503,8 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 
  //change querySelectorAll to getElementsByClassName to improve speed
  //put items in globla scope so code doesn't run with each funciton invocation
+ // reduce activity in loops
+ // DOM access is slowly
  var items = document.getElementsByClassName('mover');
 
 // Moves the sliding background pizzas based on scroll position
@@ -505,9 +512,19 @@ function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
 
+  //console.log("------------------");
+
+  // var phases = [];
+  //for (var x = 0; x < 5; x++) {
+     // phases.push(/* code goes here*/);
+  //}
+
+  // http://www.w3schools.com/js/js_performance.asp
   for (var i = 0; i < items.length; i++) {
     //make an array of five numbers?
     var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
+
+   // console.log(phase);
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
   }
 
@@ -524,11 +541,20 @@ function updatePositions() {
 // runs updatePositions on scroll
 window.addEventListener('scroll', updatePositions);
 
-// Generates the sliding pizzas when the page loads. Add comments and briefly explain optimizations.
+// Generates the sliding pizzas when the page loads.
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
-  // remove excess pizzas from view and reduce number from DOM elements.
+
+  // Caching
+  // Moving out of the loop/ reduce activity in loops
+  // Choose a more performant DOM selector
+  //var pizzaDivElem = document.getElementById("movingPizzas1");
+
+  // Add comments and briefly explain the optimizations
+  // DOM is slowly, the bigger the DOM the slower
+  // Why do we need 200 background pizzaz when just a small number is visible
+  // Reducing the number of DOM elements
   for (var i = 0; i < 24; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
@@ -537,6 +563,9 @@ document.addEventListener('DOMContentLoaded', function() {
     elem.style.width = "73.333px";
     elem.basicLeft = (i % cols) * s;
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
+    // use faster selector
+    // cache
+    //pizzaDivElem.appendChild(elem);
     document.querySelector("#movingPizzas1").appendChild(elem);
   }
   updatePositions();

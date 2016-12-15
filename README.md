@@ -7,7 +7,7 @@ Project goal is to optimize portfolio site in order to acheive acheive a score o
 Changes are made to index.html in order to optimize images and inline critical css.
 Optimizations are made to views/js/main.js in order to increase scrolling background pizzas to 60 fps and
 
-Optimization of index.html is achieved primarily by using Grunt tasks (['clean', 'mkdir', 'responsive_images', 'critical', 'imagemin']). See Gruntfile.js
+Optimization of index.html is achieved primarily by using Grunt tasks (['clean', 'mkdir', 'responsive_images', 'critical', 'imagemin']). See Gruntfile.js or package.json.
 
 Changes to views/js/main.js are noted in comments.
 See lines:
@@ -17,7 +17,7 @@ See lines:
 
 **Development setup**
 
-*Installation*
+*Install Local Dependencies*
 
 OS X & Linux:
 
