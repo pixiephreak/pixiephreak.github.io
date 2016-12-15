@@ -524,10 +524,11 @@ function updatePositions() {
 // runs updatePositions on scroll
 window.addEventListener('scroll', updatePositions);
 
-// Generates the sliding pizzas when the page loads.
+// Generates the sliding pizzas when the page loads. Add comments and briefly explain optimizations.
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
+  // remove excess pizzas from view and reduce number from DOM elements.
   for (var i = 0; i < 24; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
