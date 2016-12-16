@@ -502,7 +502,7 @@ function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
 
-  //This var calculates the scrollTop before the loop so that there is no query to the DOM each time the loop runs:
+  //This var calculates the scrollTop before the loop so that there is no query to the DOM each time the loop runs, as designed by maria_blair:
   var scrollPosition = document.body.scrollTop / 1250;
 
   //Take phase out of for loop.
