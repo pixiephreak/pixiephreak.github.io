@@ -491,6 +491,7 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 
 // The following code for sliding background pizzas was pulled from Ilya's demo found at:
 // https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
+
 //change querySelectorAll to getElementsByClassName to improve speed
 // take var items out of loop, so it doesn't generate more than necessary
  var items = document.getElementsByClassName('mover');
@@ -498,27 +499,33 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
  var itemsLength = items.length;
 // Moves the sliding background pizzas based on scroll position
 function updatePositions() {
+    frame++;
+     window.performance.mark("mark_start_frame");
 
-  frame++;
-  window.performance.mark("mark_start_frame");
+    //Optimizations below are borrowedfrom/inspired by the code of "mcs" on the Udacity.com forums
+    //store scroll top in a variable to minimize DOM queries
+    var top = document.body.scrollTop;
 
-  //This var calculates the scrollTop before the loop so that there is no query to the DOM each time the loop runs, as designed by maria_blair:
-  var scrollPosition = document.body.scrollTop / 1250;
+    var phaseArray = [];
 
-  //Take phase out of for loop.
-  var phase = [];
-  //add 5 values to phase array
-  for (var x = 0; x < 5; x++) {
-     phase.push(Math.sin((scrollPosition) + (x % 5)));
-  }
+    // This generates the same five values which were always repeating in the
+    // longer loop, and places them in `phaseArray`, which holds these five
+    // constant, repeating values ( 0.391621005430856151: -0.56266611682804072: -0.99964060614298123: -0.51755013224891414: 0.4403735464300833)
+    for (i = 0; i < 5; i++) {
+      phaseArray.push(Math.sin((top / 1250) + i));
+    }
 
-  //change position of background elements
-  for (var i = 0; i < items.length; i++) {
+    // Now this for-loop can get the usual value for phase by pulling it out of
+    // the constant array. This works because the non-optimal dx code was doing a
+    // lot of work just to calculate and re-calculate and re-calculate the same
+    // five values we stored in the constant array.
+    for (i = 0; i < items.length; i++) {
+        var index = parseInt(Math.random() * phaseArray.length+1);
+        var phase = phaseArray[index];
+        items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+    }
 
-    items[i].style.left = items[i].basicLeft + 100 * phase[i] + 'px';
-  }
-
-  // User Timing API to the rescue again. Seriously, it's worth learning.
+    // User Timing API to the rescue again. Seriously, it's worth learning.
   // Super easy to create custom metrics.
   window.performance.mark("mark_end_frame");
   window.performance.measure("measure_frame_duration", "mark_start_frame", "mark_end_frame");
@@ -536,6 +543,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
 
+
   // Caching
   // Moving out of the loop/ reduce activity in loops
   // Choose a more performant DOM selector
@@ -545,7 +553,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // DOM is slowly, the bigger the DOM the slower
   // Why do we need 200 background pizzaz when just a small number is visible
   // Reducing the number of DOM elements
-  for (var i = 0; i < 54; i++) {
+  for (var i = 0; i < 24; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
