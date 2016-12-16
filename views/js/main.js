@@ -514,14 +514,13 @@ function updatePositions() {
     for (i = 0; i < 5; i++) {
       phaseArray.push(Math.sin((top / 1250) + i));
     }
-    var index = parseInt(Math.random() * phaseArray.length+1);
     // Now this for-loop can get the usual value for phase by pulling it out of
     // the constant array. This works because the non-optimal dx code was doing a
     // lot of work just to calculate and re-calculate and re-calculate the same
     // five values we stored in the constant array.
     for (i = 0; i < items.length; i++) {
 
-        var phase = phaseArray[index];
+        var phase = phaseArray[i%5];
         items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
     }
 
