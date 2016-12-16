@@ -541,19 +541,15 @@ window.addEventListener('scroll', updatePositions);
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
-  // cache DOM query for pizzas moving on screen
+  // cache DOM query for pizzas moving on screen (reduce activity in loops)
   // use faster selector: getElementById instead of querySelector
   var movingPizzas1 = document.getElementById("movingPizzas1");
 
-  // Caching
-  // Moving out of the loop/ reduce activity in loops
-  // Choose a more performant DOM selector
-  //var pizzaDivElem = document.getElementById("movingPizzas1");
 
-  // Add comments and briefly explain the optimizations
-  // DOM is slowly, the bigger the DOM the slower
+
+
   // Why do we need 200 background pizzaz when just a small number is visible
-  // Reducing the number of DOM elements
+  // Reduced the number of DOM elements from 200 to 24
   for (var i = 0; i < 24; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
