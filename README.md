@@ -12,7 +12,14 @@ Optimization of index.html is achieved primarily by using Grunt tasks (['clean',
 Changes to views/js/main.js are noted in comments.
 See lines:
 
-Lines 404-455 are borrowed from Cam's solution in the class videos, which was also posted on the Udacity forums. The appraoch disposed of dx approach, since the complicated code simply generated a pixel val and violates the DRY mantra. Changing the pizel val of the pizzas is simply achieved in changePizzaSizes with a switch statement.
+Lines 404-455 are borrowed from Cam's solution in the class videos, which was also posted on the Udacity forums. The new appraoch disposes of dx approach, since the complicated code simply generates a pixel val and violates the DRY concept. Changing the pixel val of the pizzas is simply achieved in changePizzaSizes with a switch statement.
+
+Lines 495-505
+Change querySelectorAll to getElementsByClassName to improve speed.
+Put items in global scope so code doesn't run with each funciton invocation.
+Avoid accessing dom elements uneccessarily in for loop.
+Cache items length to avoid calculating with each function call.
+Take phase out of for loop.
 
 **Development setup**
 

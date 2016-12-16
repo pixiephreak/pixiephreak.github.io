@@ -402,7 +402,7 @@ var pizzaElementGenerator = function(i) {
 }
 /* Lines 404-455 are borrowed from Cam's solution in the class videos, which was also posted on the Udacity forums. The appraoch disposed of dx approach,
     since the complicated code simply generated a pixel val and violates the DRY mantra. Changing the pizel val of the pizzas
-    is simply achieved in changePizzaSizes */
+    is simply achieved in changePizzaSizes. Change querySelectorAll to getElementsByClassName to improve speed */
 // resizePizzas(size) is called when the slider in the "Our Pizzas" section of the website moves.
 var resizePizzas = function(size) {
   window.performance.mark("mark_start_resize");   // User Timing API function
@@ -434,10 +434,10 @@ var resizePizzas = function(size) {
 
     switch(size) {
       case "1":
-        newWidth = 25;
+        newWidth = 33.3;
         break;
       case "2":
-        newWidth = 33.3;
+        newWidth = 45;
         break;
       case "3":
         newWidth = 50;
@@ -446,7 +446,7 @@ var resizePizzas = function(size) {
         console.log("bug in sizeSwitcher");
     }
 
-    var randomPizzas = document.querySelectorAll(".randomPizzaContainer");
+    var randomPizzas = document.getElementsByClassName("randomPizzaContainer");
 
     for (var i = 0; i < randomPizzas.length; i++) {
       randomPizzas[i].style.width = newWidth + '%';
@@ -491,32 +491,27 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 
 // The following code for sliding background pizzas was pulled from Ilya's demo found at:
 // https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
-
- //change querySelectorAll to getElementsByClassName to improve speed
- //put items in globla scope so code doesn't run with each funciton invocation
- // reduce activity in loops
- // DOM access is slowly
+//change querySelectorAll to getElementsByClassName to improve speed
+// take var items out of loop, so it doesn't generate more than necessary
  var items = document.getElementsByClassName('mover');
-
+// cache items length to avoid calculating with each function call
+ var itemsLength = items.length;
 // Moves the sliding background pizzas based on scroll position
 function updatePositions() {
+
   frame++;
   window.performance.mark("mark_start_frame");
+  //Take phase out of for loop.
+  var phase = [];
+  //add 5 values to phase array
+  for (var x = 0; x < 5; x++) {
+     phase.push(Math.sin((document.body.scrollTop / 1250) + (x % 5)));
+  }
 
-  //console.log("------------------");
-
-  // var phases = [];
-  //for (var x = 0; x < 5; x++) {
-     // phases.push(/* code goes here*/);
-  //}
-
-  // http://www.w3schools.com/js/js_performance.asp
+  //change position of background elements
   for (var i = 0; i < items.length; i++) {
-    //make an array of five numbers?
-    var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
 
-   // console.log(phase);
-    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+    items[i].style.left = items[i].basicLeft + 100 * phase[i] + 'px';
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
