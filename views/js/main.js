@@ -501,11 +501,15 @@ function updatePositions() {
 
   frame++;
   window.performance.mark("mark_start_frame");
+
+  //This var calculates the scrollTop before the loop so that there is no query to the DOM each time the loop runs:
+  var scrollPosition = document.body.scrollTop / 1250;
+
   //Take phase out of for loop.
   var phase = [];
   //add 5 values to phase array
   for (var x = 0; x < 5; x++) {
-     phase.push(Math.sin((document.body.scrollTop / 1250) + (x % 5)));
+     phase.push(Math.sin((scrollPosition) + (x % 5)));
   }
 
   //change position of background elements
@@ -541,7 +545,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // DOM is slowly, the bigger the DOM the slower
   // Why do we need 200 background pizzaz when just a small number is visible
   // Reducing the number of DOM elements
-  for (var i = 0; i < 24; i++) {
+  for (var i = 0; i < 54; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
