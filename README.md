@@ -11,9 +11,8 @@ Optimization of index.html is achieved primarily by using Grunt tasks (['clean',
 
 Changes to views/js/main.js are noted in comments.
 See lines:
-<<--------------------->>
-	insert lines
-<<--------------------->>
+
+Lines 404-455 are borrowed from Cam's solution in the class videos, which was also posted on the Udacity forums. The appraoch disposed of dx approach, since the complicated code simply generated a pixel val and violates the DRY mantra. Changing the pizel val of the pizzas is simply achieved in changePizzaSizes with a switch statement.
 
 **Development setup**
 
