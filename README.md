@@ -2,7 +2,7 @@
 
 Project first goal is to optimize portfolio site (index.html) in order to acheive acheive a score of 90+ using Google's Pagespeed Insights tool.
 
-The other goal is to achieve jank free moving pizza animation on pizza.html qith a consistent rate of 60 FPS.
+The other goal is to achieve jank free moving pizza animation on pizza.html qith a consistent rate of 60 FPS and to achieve a response of less than 5ms when resizing the pizzas using the slider.
 
 **Overview**
 
@@ -22,7 +22,7 @@ In pizza.html, performance imporvments are made through 5 major strategies, in a
 Exact changes to views/js/main.js are noted in comments.
 See lines:
 
-Lines 404-455 are borrowed from Cam's solution in the class videos, which was also posted on the Udacity forums. The new appraoch disposes of dx approach, since the complicated code simply generates a pixel val and violates the DRY concept. Changing the pixel val of the pizzas is simply achieved in changePizzaSizes with a switch statement.
+Lines 404-455 (pizza slider) are borrowed from Cam's solution in the class videos, which was also posted on the Udacity forums. The new appraoch disposes of dx approach, since the complicated code simply generates a pixel val and violates the DRY concept. Changing the pixel val of the pizzas is simply achieved in changePizzaSizes with a switch statement.
 
 Lines 495-505
 Change querySelectorAll to getElementsByClassName to improve speed.
@@ -54,6 +54,8 @@ npm install (my npm tasks) --save -dev
 
 Windows:
 edit autoexec.bat
+
+See more about how to get GRUNT tasks up and running at: http://gruntjs.com/getting-started
 
 **Meta**
 
